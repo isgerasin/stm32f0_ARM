@@ -194,10 +194,13 @@ void GetTime()
         }
         if (isAlarm)
         {
-            LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_13);
+            if (curMsec%2)
+                LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_13);
+            // LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_13);
             LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_8);
             if (curMsec - alarmInMsec >= MINUTE || buttons[1] == oneClick)
             {
+                buttons[1] = none;
                 LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_8);
                 LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_13);
                 isAlarm = 0;
